@@ -8,7 +8,7 @@ Bullet::Bullet(df::Vector start_pos) {
 	setType("Bullet");
 	setSprite("bullet");
 
-	df::Vector p(start_pos.getX() + 1.5, start_pos.getY() - .5);
+	df::Vector p(start_pos.getX() + 1.5f, start_pos.getY() - 0.5f);
 	setPosition(p);
 
 	setSpeed(1);

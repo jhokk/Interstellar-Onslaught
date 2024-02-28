@@ -9,7 +9,7 @@ Enemy::Enemy() {
 	setType("Enemy");
 	setSprite("enemy");
 
-	setVelocity(df::Vector(0.05, 0.005));
+	setVelocity(df::Vector(0.05f, 0.005f));
 
 	moveToStart();
 	setSolidness(df::HARD);

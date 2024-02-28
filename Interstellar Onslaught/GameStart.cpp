@@ -25,8 +25,8 @@ GameStart::GameStart() {
     registerInterest(df::KEYBOARD_EVENT);
 
     // Play start music. TODO
-    //p_music = RM.getMusic("start music");
-    //playMusic();
+    p_music = RM.getMusic("start music");
+    playMusic();
 }
 
 // Play start music.
