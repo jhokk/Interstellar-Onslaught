@@ -12,26 +12,23 @@
 #include "Bullet.h"
 
 
-namespace df {
-	Hero::Hero() {
 
-	
+	Hero::Hero() {
 
 		setType("Hero");
 		if (setSprite("ship") != 0) {
 			std::cout << "Hero Sprite load failed! \n";
 		}
 		
-
 		// set starting location
-		Vector p((float)DM.getHorizontal()/2, (float)DM.getVertical()-1);
+		df::Vector p((float)DM.getHorizontal()/2, (float)DM.getVertical()-2);
 		//Vector p((float)DM.getHorizontal()/2, (float)DM.getVertical()/2);
 
 		setPosition(p);
 
 		setAltitude(2);
 
-		setSolidness(HARD);
+		setSolidness(df::HARD);
 
 		//setVelocity(Vector(0, 0));
 		//setDirection(Vector(0, 1));
@@ -54,11 +51,11 @@ namespace df {
 
 	}
 
-	int Hero::eventHandler(const Event* p_e) {
+	int Hero::eventHandler(const df::Event* p_e) {
 
-		if (p_e->getType() == KEYBOARD_EVENT) {
-			const EventKeyboard* p_keyboard_event =
-				dynamic_cast <const EventKeyboard*> (p_e);
+		if (p_e->getType() == df::KEYBOARD_EVENT) {
+			const df::EventKeyboard* p_keyboard_event =
+				dynamic_cast <const df::EventKeyboard*> (p_e);
 			//printf("keyboard event found!");
 			kbd(p_keyboard_event);
 			return 1;
@@ -67,14 +64,14 @@ namespace df {
 			printf("Hero collided! \n");
 			return 1;
 		}
-		if (p_e->getType() == OUT_EVENT) {
+		if (p_e->getType() == df::OUT_EVENT) {
 			printf("Hero is out of bounds! \n");
 			return 1;
 		}
-		if (p_e->getType() == MSE_EVENT) {
-			const EventMouse* p_mouse_event = dynamic_cast <const df::EventMouse*> (p_e);
-			if ((p_mouse_event->getMouseAction() == CLICKED) &&
-				(p_mouse_event->getMouseButton() == Mouse::LEFT)) {
+		if (p_e->getType() == df::MSE_EVENT) {
+			const df::EventMouse* p_mouse_event = dynamic_cast <const df::EventMouse*> (p_e);
+			if ((p_mouse_event->getMouseAction() == df::CLICKED) &&
+				(p_mouse_event->getMouseButton() == df::Mouse::LEFT)) {
 				fire(this->getPosition());
 			}
 			return 1;
@@ -90,32 +87,20 @@ namespace df {
 		return 0;
 	}
 
-	void Hero::kbd(const EventKeyboard* p_keyboard_event) {
+	void Hero::kbd(const df::EventKeyboard* p_keyboard_event) {
 		//printf("key: %d", p_keyboard_event->getKey());
 		switch (p_keyboard_event->getKey()) {
-			///*
-		case Keyboard::W:     // up
+		case df::Keyboard::A:     // left
 			if (p_keyboard_event->getKeyboardAction() == 5) {
-				move(0, -.7);
+				move(-2);
 			}
 			break;
-		case Keyboard::S:       // down
+		case df::Keyboard::D:       // right
 			if (p_keyboard_event->getKeyboardAction() == 5) {
-				move(0, +.7);
+				move(+2);
 			}
 			break;
-			//*/
-		case Keyboard::A:     // left
-			if (p_keyboard_event->getKeyboardAction() == 5) {
-				move(-2, 0);
-			}
-			break;
-		case Keyboard::D:       // right
-			if (p_keyboard_event->getKeyboardAction() == 5) {
-				move(+2, 0);
-			}
-			break;
-		case Keyboard::Space:
+		case df::Keyboard::SPACE:
 			if (p_keyboard_event->getKeyboardAction() == 5) {
 				//RM.getSound("weapon swap")->play();
 			}
@@ -129,16 +114,16 @@ namespace df {
 	}
 
 	// Move up or down.
-	void Hero::move(float dx, float dy) {
+	void Hero::move(float dx) {
 
 		// See if time to move.
 		if (move_countdown == 0) {
 
 			// If stays on window, allow move.
-			Vector new_pos(getPosition().getX() + dx, getPosition().getY() + dy);
+			df::Vector new_pos(getPosition().getX() + dx, getPosition().getY());
 
-			if ((new_pos.getX() > 0) &&
-				(new_pos.getX() < WM.getBoundary().getHorizontal()))
+			if ((new_pos.getX() > 1) &&
+				(new_pos.getX() < WM.getBoundary().getHorizontal())-1)
 				WM.moveObject(this, new_pos);
 
 			move_countdown = move_slowdown;
@@ -146,20 +131,20 @@ namespace df {
 
 	}
 
-	void Hero::fire(Vector target) {
+	void Hero::fire(df::Vector target) {
 
 		//printf("Fire at X: %f \n", target.getX());
 
 		if (fire_countdown == 0) {
 
-			Vector v = Vector(target.getX(), target.getY() - 1500);
+			df::Vector v = df::Vector(target.getX(), target.getY() - 1500);
 
 			v.normalize();
 
 			//printf("target vector: %f, %f \n", v.getX(), v.getY());
 
 			v.scale(0.5);
-			Bullet* p = new Bullet(Vector(getPosition().getX() - 2, getPosition().getY() - 2));
+			Bullet* p = new Bullet(df::Vector(getPosition().getX() - 2, getPosition().getY() - 2));
 
 			p->setVelocity(v);
 
@@ -186,4 +171,3 @@ namespace df {
 	}
 	
 	
-}

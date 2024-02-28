@@ -12,7 +12,7 @@ Enemy::Enemy() {
 	setVelocity(df::Vector(0.05, 0.005));
 
 	moveToStart();
-	setSolidness(HARD);
+	setSolidness(df::HARD);
 }
 
 Enemy::~Enemy() {
@@ -31,7 +31,7 @@ void Enemy::out() {
 }
 
 int Enemy::eventHandler(const df::Event* p_e) {
-	if (p_e->getType() == OUT_EVENT) {
+	if (p_e->getType() == df::OUT_EVENT) {
 		out();
 		return 1;
 	}

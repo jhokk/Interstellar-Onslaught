@@ -19,6 +19,7 @@ int main(int argc, char* argv[]) {
     RM.loadSprite("sprites/hero-spr.txt", "hero");
     RM.loadSprite("sprites/powerup-spr.txt", "powerup");
     RM.loadSprite("sprites/newShip-spr.txt", "newShip");
+    RM.loadSprite("sprites/gamestart-spr.txt", "gamestart");
 
     GM.run();
 

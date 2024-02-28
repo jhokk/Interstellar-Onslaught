@@ -3,49 +3,42 @@
 #include "WorldManager.h"
 #include "EventOut.h"
 
-namespace df {
+Bullet::Bullet(df::Vector start_pos) {
 
+	setType("Bullet");
+	setSprite("bullet");
 
-	Bullet::Bullet(Vector start_pos) {
+	df::Vector p(start_pos.getX() + 1.5, start_pos.getY() - .5);
+	setPosition(p);
 
-		setType("Bullet");
-		setSprite("bullet");
+	setSpeed(1);
 
-		Vector p(start_pos.getX() + 1.5, start_pos.getY() - .5);
-		setPosition(p);
+	setSolidness(df::SOFT);
+}
 
-		setSpeed(1);
+void Bullet::out() {
+	printf("bullet out of bounds, getting deleted");
+	WM.markForDelete(this);
+}
 
-		setSolidness(SOFT);
+int Bullet::eventHandler(const df::Event* p_e) {
+
+	if (p_e->getType() == df::OUT_EVENT) {
+		out();
+		return 1;
 	}
-
-	void Bullet::out() {
-		printf("bullet out of bounds, getting deleted");
-		WM.markForDelete(this);
+	if (p_e->getType() == "Collision") {
+		const df::EventCollision* p_collision_event = dynamic_cast <const df::EventCollision*> (p_e);
+		hit(p_collision_event);
+		return 1;
 	}
+	return 0;
+}
 
-	int Bullet::eventHandler(const Event* p_e) {
-
-		if (p_e->getType() == OUT_EVENT) {
-			out();
-			return 1;
-		}
-		if (p_e->getType() == "Collision") {
-			const EventCollision* p_collision_event = dynamic_cast <const EventCollision*> (p_e);
-			hit(p_collision_event);
-			return 1;
-		}
-		return 0;
+void Bullet::hit(const df::EventCollision* p_collision_event) {
+	if ((p_collision_event->getObject1()->getType() == "Enemy") ||
+		(p_collision_event->getObject2()->getType() == "Enemy")) {
+		WM.markForDelete(p_collision_event->getObject1());
+		WM.markForDelete(p_collision_event->getObject2());
 	}
-
-	void Bullet::hit(const EventCollision* p_collision_event) {
-		if ((p_collision_event->getObject1()->getType() == "Enemy") ||
-			(p_collision_event->getObject2()->getType() == "Enemy")) {
-			WM.markForDelete(p_collision_event->getObject1());
-			WM.markForDelete(p_collision_event->getObject2());
-		}
-	}
-
-	
-
 }

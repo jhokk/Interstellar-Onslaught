@@ -1,12 +1,9 @@
 #include "ViewObject.h"
 #include "Event.h"
 
-namespace df {
+class Points : public df::ViewObject {
 
-	class Points : public ViewObject {
-
-	public:
-		Points();
-		int eventHandler(const Event* p_e) override;
-	};
-}
+public:
+	Points();
+	int eventHandler(const df::Event* p_e) override;
+};
