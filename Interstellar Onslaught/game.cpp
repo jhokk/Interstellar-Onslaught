@@ -6,7 +6,6 @@
 
 int main(int argc, char* argv[]) {
 
-    // Start up game manager.
     if (GM.startUp()) {
         LM.writeLog("Error starting game manager!");
         GM.shutDown();
@@ -15,11 +14,11 @@ int main(int argc, char* argv[]) {
 
     df::splash();
 
-    //RM.loadSprite("sprites/bullet-spr.txt", "bullet");
-    //RM.loadSprite("sprites/enemy-spr.txt", "enemy");
-    //RM.loadSprite("sprites/hero-spr.txt", "hero");
-    //RM.loadSprite("sprites/powerup-spr.txt", "powerup");
-    //RM.loadSprite("sprites/newShip-spr.txt", "newShip");
+    RM.loadSprite("sprites/bullet-spr.txt", "bullet");
+    RM.loadSprite("sprites/enemy-spr.txt", "enemy");
+    RM.loadSprite("sprites/hero-spr.txt", "hero");
+    RM.loadSprite("sprites/powerup-spr.txt", "powerup");
+    RM.loadSprite("sprites/newShip-spr.txt", "newShip");
 
     GM.run();
 
