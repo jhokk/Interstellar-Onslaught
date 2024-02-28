@@ -15,7 +15,11 @@ int main(int argc, char* argv[]) {
 
     df::splash();
 
+    //RM.loadSprite("sprites/bullet-spr.txt", "bullet");
+    //RM.loadSprite("sprites/enemy-spr.txt", "enemy");
     //RM.loadSprite("sprites/hero-spr.txt", "hero");
+    //RM.loadSprite("sprites/powerup-spr.txt", "powerup");
+    //RM.loadSprite("sprites/newShip-spr.txt", "newShip");
 
     GM.run();
 

@@ -1,0 +1,16 @@
+<HEADER>
+frames 2
+width 3
+height 1
+color red
+slowdown 6
+</HEADER>
+<BODY>
+|+|
+end
+|X|
+end
+</BODY>
+<FOOTER>
+version alpha
+</FOOTER>

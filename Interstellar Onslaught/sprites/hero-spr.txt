@@ -1,0 +1,16 @@
+<HEADER>
+frames 1
+width 6
+height 3
+color blue
+slowdown 4
+</HEADER>
+<BODY>
+. /\ .
+|/__\|
+ ^  ^ 
+end
+</BODY>
+<FOOTER>
+version alpha
+</FOOTER>
