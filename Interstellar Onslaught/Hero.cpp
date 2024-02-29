@@ -10,6 +10,8 @@
 #include <iostream>
 #include "ResourceManager.h"
 #include "Bullet.h"
+#include "GameOver.h"
+
 
 	Hero::Hero() {
 
@@ -58,6 +60,10 @@
 
 	Hero::~Hero() {
 
+		df::addParticles(df::SPARKS, getPosition(), 3, df::RED);
+		df::addParticles(df::SPARKS, getPosition(), 2, df::YELLOW);
+
+		new GameOver();
 
 	}
 
@@ -116,6 +122,12 @@
 		case df::Keyboard::SPACE:
 			if (p_keyboard_event->getKeyboardAction() == df::KEY_PRESSED) {
 				//RM.getSound("weapon swap")->play();
+			}
+			break;
+		case df::Keyboard::Q:
+			if (p_keyboard_event->getKeyboardAction() == df::KEY_PRESSED) {
+				// game over!
+				WM.markForDelete(this);
 			}
 			break;
 		default: // Key not handled.

@@ -18,6 +18,7 @@ int main(int argc, char* argv[]) {
 
     df::splash();
 
+
     loadResources();
     
     new GameStart();
