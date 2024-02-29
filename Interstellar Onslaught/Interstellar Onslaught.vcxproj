@@ -78,8 +78,8 @@
     <IncludePath>C:\Users\jayho\source\repos\Interstellar-Onslaught\dragonfly\include;C:\Users\jayho\source\repos\Interstellar-Onslaught\SFML-2.6\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>C:\Users\jayho\source\repos\Interstellar-Onslaught\dragonfly\include;C:\Users\jayho\source\repos\Interstellar-Onslaught\SFML-2.6\include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Users\jayho\source\repos\Interstellar-Onslaught\SFML-2.6\lib;C:\Users\jayho\source\repos\Interstellar-Onslaught\dragonfly\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\Users\jayho\source\repos\Interstellar-Onslaught\dragonfly\include;C:\Users\jayho\source\repos\Interstellar-Onslaught\SFML-2.6\include;C:\Users\green\source\repos\Interstellar-Onslaught\dragonfly\include;C:\Users\green\source\repos\Interstellar-Onslaught\SFML-2.6\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Users\jayho\source\repos\Interstellar-Onslaught\SFML-2.6\lib;C:\Users\jayho\source\repos\Interstellar-Onslaught\dragonfly\lib;C:\Users\green\source\repos\Interstellar-Onslaught\SFML-2.6\lib;C:\Users\green\source\repos\Interstellar-Onslaught\dragonfly\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <IncludePath>C:\Users\jayho\source\repos\Interstellar-Onslaught\dragonfly\include;C:\Users\jayho\source\repos\Interstellar-Onslaught\SFML-2.6\include;$(IncludePath)</IncludePath>
@@ -143,10 +143,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="GameOver.cpp" />
     <ClCompile Include="PowerUp.cpp" />
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="Enemy.h" />
     <ClCompile Include="GameStart.cpp" />
+    <ClInclude Include="GameOver.h" />
     <ClInclude Include="GameStart.h" />
     <ClInclude Include="PowerUp.h" />
     <ClInclude Include="Hero.h" />
