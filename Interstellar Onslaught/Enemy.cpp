@@ -118,7 +118,7 @@ void Enemy::step(const df::EventStep* p_step_event) {
 		shoot();
 
 		// Play sound
-		df::Sound* f_sound = RM.getSound("enemy-fire");
+		df::Sound* f_sound = RM.getSound("enemy fire");
 		if (f_sound)
 			f_sound->play();
 	}
@@ -126,6 +126,14 @@ void Enemy::step(const df::EventStep* p_step_event) {
 
 void Enemy::shoot() {
 
-	new Bullet(df::Vector(getPosition().getX() + 1.5f, getPosition().getY() + 1), 0, "EnemyBullet", "enemybullet");
+	new Bullet(df::Vector(getPosition().getX() + 1.5f, getPosition().getY() + 1), 0, "EnemyBullet", "enemy bullet");
 
+}
+
+void Enemy::setPoints(int new_points) {
+	points = new_points;
+}
+
+int Enemy::getPoints() const {
+	return points;
 }

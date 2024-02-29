@@ -1,13 +1,12 @@
 <HEADER>
 frames 1
 width 3
-height 2
-color blue
+height 1
+color green
 slowdown -1
 </HEADER>
 <BODY>
- | 
-/X\
+(*)
 end
 </BODY>
 <FOOTER>

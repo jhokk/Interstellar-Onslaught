@@ -4,6 +4,7 @@
 #include "EventCollision.h"
 #include "Object.h"
 #include "PowerUp.h"
+#include "Music.h"
 #include "ViewObject.h"
 
 class Hero : public df::Object {
@@ -20,8 +21,9 @@ private:
     int power_timer;
     df::ViewObject* p_power_vo;
     void newWave();
-    int toCreateWave;
+    int new_wave_wait;
     int wave_num;
+    df::Music* p_music;
 
 public:
     Hero();

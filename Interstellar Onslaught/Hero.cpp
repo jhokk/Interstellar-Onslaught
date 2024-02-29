@@ -13,6 +13,7 @@
 #include "GameOver.h"
 #include "Enemy.h"
 #include "EventWave.h"
+#include "Boss.h"
 
 
 	Hero::Hero() {
@@ -50,6 +51,10 @@
 		p_power_vo->setBorder(0);
 		//p_power_vo->setActive(0);
 
+		p_music = RM.getMusic("game music");
+		if (p_music)
+			p_music->play();
+
 		wave_num = 0;
 		newWave();
 	}
@@ -59,10 +64,10 @@
 		df::addParticles(df::SPARKS, getPosition(), 3, df::RED);
 		df::addParticles(df::SPARKS, getPosition(), 2, df::YELLOW);
 
-		p_power_vo->setActive(0);
+		p_power_vo->setActive(false);
+		p_music->stop();
 
 		new GameOver();
-
 	}
 
 	int Hero::eventHandler(const df::Event* p_e) {
@@ -101,7 +106,7 @@
 		if (p_e->getType() == WAVE_EVENT) {
 			//printf("wave event received!");
 			//newWave();
-			toCreateWave = 1;
+			new_wave_wait = 45;
 			return 1;
 		}
 		else {
@@ -155,10 +160,8 @@
 				(new_pos.getX() < WM.getBoundary().getHorizontal() - 2)) {
 				WM.moveObject(this, new_pos);
 			}
-
 			move_countdown = move_slowdown;
 		}
-
 	}
 
 	void Hero::fire() {
@@ -209,8 +212,10 @@
 				p_power_vo->setColor(df::CYAN);
 		}
 
-		if (toCreateWave)
+		if (new_wave_wait == 0)
 			newWave();
+		else if (new_wave_wait > 0)
+			new_wave_wait--;
 	}
 	
 	void Hero::hit(const df::EventCollision* p_collision_event) {
@@ -258,12 +263,19 @@
 		power = PowerUpType::NONE;
 		power_timer = 0;
 		p_power_vo->setActive(0);
-		toCreateWave = 0;
+		new_wave_wait = -1;
 
-		for (int i = 0; i < 18; i++)
-			new Enemy(wave_num);
-		for (int i = 0; i < 18; i++)
-			new Enemy(wave_num, 1);
+		if (wave_num % 4 == 0) {
+			p_music->pause();
+			new Boss;
+		}
+		else {
+			p_music->play();
+			for (int i = 0; i < 18; i++)
+				new Enemy(wave_num, 0);
+			for (int i = 0; i < 18; i++)
+				new Enemy(wave_num, 1);
+		}
 
 		df::Sound* f_sound = RM.getSound("new wave");
 		if (f_sound)

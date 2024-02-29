@@ -30,25 +30,25 @@ Bullet::Bullet(df::Vector start_pos, int piercing, std::string name, std::string
 	setPierce(piercing);
 }
 
-/*
-Bullet::Bullet(df::Vector start_pos, int piercing) {
 
-	setType("Bullet");
-	setSprite("bullet");
+Bullet::Bullet(df::Vector start_pos, df::Vector direction) {
 
-	df::Vector p(start_pos.getX() + 1.5f, start_pos.getY() - 0.5f);
-	setPosition(p);
+	setType("EnemyBullet");
+	setSprite("boss bullet");
 
-	//setSpeed(1);
-	setVelocity(df::Vector(0, -0.5f));
+	direction.normalize();
+	direction.scale(0.5);
+	setVelocity(direction);
+
+	setPosition(start_pos + getVelocity());
 
 	setSolidness(df::SOFT);
 
 	registerInterest(WAVE_EVENT);
 
-	setPierce(piercing);
+	setPierce(1);
 }
-*/
+
 
 void Bullet::out() {
 	//printf("bullet out of bounds, getting deleted");
@@ -102,6 +102,10 @@ void Bullet::hit(const df::EventCollision* p_collision_event) {
 			// 10% chance to create powerup
 			if ((rand() % 10) == 0)
 				new PowerUp(getPosition());
+		}
+		else if (p_collision_event->getObject1()->getType() == "Boss" ||
+			p_collision_event->getObject2()->getType() == "Boss") {
+			WM.markForDelete(this);
 		}
 	}
 	// This is an enemy bullet

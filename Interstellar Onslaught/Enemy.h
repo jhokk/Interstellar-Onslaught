@@ -15,7 +15,9 @@ private:
 	void shoot();
 
 public:
-	Enemy(int wave, int level=0);
+	Enemy(int wave=1, int level=0);
 	~Enemy();
 	int eventHandler(const df::Event* p_e) override;
+	void setPoints(int new_points);
+	int getPoints() const;
 };

@@ -12,5 +12,5 @@ end
 end
 </BODY>
 <FOOTER>
-version alpha
+version 1
 </FOOTER>

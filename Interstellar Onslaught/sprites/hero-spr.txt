@@ -12,5 +12,5 @@ slowdown 4
 end
 </BODY>
 <FOOTER>
-version alpha
+version 1
 </FOOTER>
