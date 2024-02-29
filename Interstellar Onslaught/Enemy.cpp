@@ -2,15 +2,16 @@
 #include "EventOut.h"
 #include "WorldManager.h"
 #include "EventView.h"
-#include "PowerUp.h"
 #include "DisplayManager.h"
 #include "Bullet.h"
 #include "ObjectListIterator.h"
 #include "EventWave.h"
+#include "GameManager.h"
+#include "ResourceManager.h"
 
 #include <stdlib.h>
 
-Enemy::Enemy(int level) {
+Enemy::Enemy(int wave, int level) {
 	if (level == 1) {
 		setSprite("enemy1");
 		points = 20;
@@ -21,7 +22,9 @@ Enemy::Enemy(int level) {
 	}
 	setType("Enemy");
 
-	setVelocity(df::Vector(0.05f, 0.005f));
+	setVelocity(df::Vector(0.05f, 0.004f + (0.0015f * wave)));
+
+	shoot_chance = 1000 - 100 * wave;
 
 	moveToStart();
 	setSolidness(df::HARD);
@@ -30,28 +33,22 @@ Enemy::Enemy(int level) {
 }
 
 Enemy::~Enemy() {
-	df::EventView ev("Points", points, true);
-	WM.onEvent(&ev);
+	if (getPosition().getY() < WM.getBoundary().getVertical()) {
+		df::EventView ev("Points", points, true);
+		WM.onEvent(&ev);
 
-	// 10% chance to create powerup
-	if ((rand() % 10) == 0)
-		new PowerUp(getPosition());
-
-	df::ObjectList enemy_list = WM.objectsOfType("Enemy");
-	if (enemy_list.getCount() == 1) {
-		EventWave wave;
-		WM.onEvent(&wave);
+		df::ObjectList enemy_list = WM.objectsOfType("Enemy");
+		if (enemy_list.getCount() == 1) {
+			EventWave wave;
+			WM.onEvent(&wave);
+		}
 	}
 }
 
 void Enemy::out() {
 	if (getPosition().getY() > WM.getBoundary().getVertical()) {
-		// Lose a life
-		df::EventView ev("Lives", -1, true);
-		WM.onEvent(&ev);
-
-		//DM.shake(1, 1, 1);
 		WM.markForDelete(this);
+		GM.setGameOver();
 	}
 }
 
@@ -79,11 +76,8 @@ void Enemy::hit(const df::EventCollision* p_collision_event) {
 
 	if (p_collision_event->getObject1()->getType() == "Hero" || 
 		p_collision_event->getObject2()->getType() == "Hero") {
-		WM.markForDelete(this);
-
-		// Lose a life
-		df::EventView ev("Lives", -1, true);
-		WM.onEvent(&ev);
+		WM.markForDelete(p_collision_event->getObject1());
+		WM.markForDelete(p_collision_event->getObject2());
 	}
 }
 
@@ -120,14 +114,18 @@ void Enemy::step(const df::EventStep* p_step_event) {
 	}
 
 	// Shoot?
-	if (rand() % 900 == 0) {
+	if (rand() % shoot_chance == 0) {
 		shoot();
+
+		// Play sound
+		df::Sound* f_sound = RM.getSound("enemy-fire");
+		if (f_sound)
+			f_sound->play();
 	}
 }
 
 void Enemy::shoot() {
 
 	new Bullet(df::Vector(getPosition().getX() + 1.5f, getPosition().getY() + 1), 0, "EnemyBullet", "enemybullet");
-
 
 }

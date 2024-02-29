@@ -21,6 +21,7 @@ private:
     df::ViewObject* p_power_vo;
     void newWave();
     int toCreateWave;
+    int wave_num;
 
 public:
     Hero();

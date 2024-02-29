@@ -39,19 +39,20 @@ GameOver::GameOver() {
 // When object exits, indicate game over.
 GameOver::~GameOver() {
 
-	// Remove Saucers and ViewObjects, re-activate GameStart.
+	// Remove ViewObjects, enemies, bullets, and powerups; re-activate GameStart.
 	df::ObjectList object_list = WM.getAllObjects(true);
 	df::ObjectListIterator i(&object_list);
 	for (i.first(); !i.isDone(); i.next()) {
 		df::Object* p_o = i.currentObject();
-		if (p_o->getType() == "Enemy" || p_o->getType() == "ViewObject")
+		if (p_o->getType() == "ViewObject" || p_o->getType() == "Enemy" || 
+			p_o->getType() == "Bullet" || p_o->getType() == "EnemyBullet" || 
+			p_o->getType() == "PowerUp")
 			WM.markForDelete(p_o);
 		if (p_o->getType() == "GameStart") {
-			p_o->setActive(true);
-			dynamic_cast <GameStart*> (p_o)->playMusic();	// Resume start music.
+			//p_o->setActive(true);
+			dynamic_cast <GameStart*> (p_o)->reactivate();
 		}
 	}
-
 
 }
 

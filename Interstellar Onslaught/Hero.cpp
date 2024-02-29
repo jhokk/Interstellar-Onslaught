@@ -24,9 +24,6 @@
 		
 		// set starting location
 		//df::Vector p((float)DM.getHorizontal()/2, (float)DM.getVertical()-2);
-		
-		//Vector p((float)DM.getHorizontal()/2, (float)DM.getVertical()/2);
-
 		//setPosition(p);
 
 		setAltitude(2);
@@ -37,13 +34,6 @@
 		registerInterest(df::MSE_EVENT);
 		registerInterest(df::STEP_EVENT);
 		registerInterest(WAVE_EVENT);
-
-		//setVelocity(Vector(0, 0));
-		//setDirection(Vector(0, 1));
-
-		// Create reticle for firing bullets.
-		//p_reticle = new Reticle();
-		//p_reticle->draw();
 
 		move_slowdown = 3;
 		//move_countdown = move_slowdown;
@@ -60,6 +50,7 @@
 		p_power_vo->setBorder(0);
 		//p_power_vo->setActive(0);
 
+		wave_num = 0;
 		newWave();
 	}
 
@@ -169,32 +160,6 @@
 		}
 
 	}
-	/*
-	void Hero::fire(df::Vector target) {
-
-		//printf("Fire at X: %f \n", target.getX());
-
-		if (fire_countdown == 0) {
-
-			df::Vector v = df::Vector(target.getX(), target.getY() - 1500);
-
-			v.normalize();
-
-			//printf("target vector: %f, %f \n", v.getX(), v.getY());
-
-			v.scale(0.5);
-			
-			Bullet* p = new Bullet(df::Vector(getPosition().getX() - 2, getPosition().getY() - 2));
-			p->setVelocity(v);
-
-			// Play "fire" sound.
-			df::Sound* f_sound = RM.getSound("fire");
-			if (f_sound)
-				f_sound->play();
-
-			fire_countdown = fire_slowdown;
-		}
-	}*/
 
 	void Hero::fire() {
 
@@ -266,11 +231,27 @@
 			else if (power == PowerUpType::PIERCE) {
 				p_power_vo->setViewString("Piercing Shots!!");
 			}
+
+			df::Sound* f_sound = RM.getSound("powerup");
+			if (f_sound)
+				f_sound->play();
 		}
 	}
 
 	void Hero::newWave() {
+
+		// clear enemies, bullets, and powerups
+		df::ObjectList object_list = WM.getAllObjects(true);
+		df::ObjectListIterator i(&object_list);
+		for (i.first(); !i.isDone(); i.next()) {
+			df::Object* p_o = i.currentObject();
+			if (p_o->getType() == "Enemy" || p_o->getType() == "Bullet" ||
+				p_o->getType() == "EnemyBullet" || p_o->getType() == "PowerUp")
+				WM.markForDelete(p_o);
+		}
+
 		setPosition(df::Vector((float)DM.getHorizontal() / 2, (float)DM.getVertical() - 2));
+		wave_num++;
 
 		move_countdown = move_slowdown;
 		fire_countdown = fire_slowdown;
@@ -280,7 +261,11 @@
 		toCreateWave = 0;
 
 		for (int i = 0; i < 18; i++)
-			new Enemy;
+			new Enemy(wave_num);
 		for (int i = 0; i < 18; i++)
-			new Enemy(1);
+			new Enemy(wave_num, 1);
+
+		df::Sound* f_sound = RM.getSound("new wave");
+		if (f_sound)
+			f_sound->play();
 	}

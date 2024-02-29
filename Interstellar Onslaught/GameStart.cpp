@@ -4,6 +4,8 @@
 #include "GameManager.h"
 #include "ResourceManager.h"
 #include "WorldManager.h"
+#include "ViewObject.h"
+#include "EventView.h"
 
 // Game includes.
 #include "GameStart.h"
@@ -63,7 +65,6 @@ int GameStart::eventHandler(const df::Event* p_e) {
 void GameStart::start() {
 
     new Hero;
-    //newWave();
 
     new Points;
 
@@ -77,4 +78,9 @@ void GameStart::start() {
 // Override default draw so as not to display "value".
 int GameStart::draw() {
     return df::Object::draw();
+}
+
+void GameStart::reactivate() {
+    setActive(true);
+    playMusic();
 }

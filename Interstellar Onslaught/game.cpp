@@ -43,6 +43,10 @@ void loadResources(void) {
     RM.loadSprite("sprites/gameover-spr.txt", "gameover");
 
     RM.loadSound("sounds/fire.wav", "fire");
+    RM.loadSound("sounds/enemy-fire.wav", "enemy-fire");
     RM.loadMusic("sounds/start-music.wav", "start music");
     RM.loadSound("sounds/game-over-new.wav", "game over");
+    RM.loadSound("sounds/powerup.wav", "powerup");
+    RM.loadSound("sounds/explosion.wav", "explode");
+    RM.loadSound("sounds/new-wave.wav", "new wave");
 }

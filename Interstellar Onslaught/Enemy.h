@@ -6,7 +6,8 @@
 class Enemy : public df::Object {
 
 private:
-	int points;
+	int points; //number of points this enemy is worth
+	int shoot_chance; //odds to fire an enemy bullet as 1/x each step
 	void out();
 	void hit(const df::EventCollision* p_collision_event);
 	void moveToStart();
@@ -14,7 +15,7 @@ private:
 	void shoot();
 
 public:
-	Enemy(int level=0);
+	Enemy(int wave, int level=0);
 	~Enemy();
 	int eventHandler(const df::Event* p_e) override;
 };
