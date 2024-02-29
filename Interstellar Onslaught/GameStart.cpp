@@ -60,19 +60,17 @@ int GameStart::eventHandler(const df::Event* p_e) {
 
 void GameStart::start() {
 
-    // Create hero.
     new Hero;
 
-    // Spawn some saucers to shoot.
     for (int i = 0; i < 27; i++)
         new Enemy;
 
-    // Setup heads-up display.
-    new Points;		                     // Points display.
-    df::ViewObject* p_vo = new df::ViewObject; // Count of nukes.
-    p_vo->setLocation(df::TOP_LEFT);
-    p_vo->setViewString("Nukes");
-    p_vo->setValue(1);
+
+    new Points;
+    df::ViewObject* p_vo = new df::ViewObject;
+    p_vo->setLocation(df::TOP_RIGHT);
+    p_vo->setViewString("Score");
+    p_vo->setValue(0);
     p_vo->setColor(df::YELLOW);
 
     // Pause start music.

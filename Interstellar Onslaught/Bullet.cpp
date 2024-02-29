@@ -17,7 +17,7 @@ Bullet::Bullet(df::Vector start_pos) {
 }
 
 void Bullet::out() {
-	printf("bullet out of bounds, getting deleted");
+	//printf("bullet out of bounds, getting deleted");
 	WM.markForDelete(this);
 }
 
@@ -27,7 +27,7 @@ int Bullet::eventHandler(const df::Event* p_e) {
 		out();
 		return 1;
 	}
-	if (p_e->getType() == "Collision") {
+	if (p_e->getType() == df::COLLISION_EVENT) {
 		const df::EventCollision* p_collision_event = dynamic_cast <const df::EventCollision*> (p_e);
 		hit(p_collision_event);
 		return 1;

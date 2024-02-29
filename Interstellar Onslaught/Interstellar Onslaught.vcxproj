@@ -145,7 +145,7 @@
   <ItemGroup>
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="Enemy.h" />
-    <ClInclude Include="GameStart.cpp" />
+    <ClCompile Include="GameStart.cpp" />
     <ClInclude Include="GameStart.h" />
     <ClInclude Include="Hero.h" />
     <ClInclude Include="Points.h" />

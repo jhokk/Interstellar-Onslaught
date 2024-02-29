@@ -13,14 +13,16 @@ Enemy::Enemy() {
 
 	moveToStart();
 	setSolidness(df::HARD);
+
+	registerInterest(df::STEP_EVENT);
 }
 
 Enemy::~Enemy() {
 
 	// Send "view" event with points to ViewObjects.
 	// Add 10 points.
-	df::EventView ev("Score", 10, true);
-	//WM.onEvent(&ev);
+	df::EventView ev("Points", 10, true);
+	WM.onEvent(&ev);
 }
 
 void Enemy::out() {
@@ -35,12 +37,12 @@ int Enemy::eventHandler(const df::Event* p_e) {
 		out();
 		return 1;
 	}
-	if (p_e->getType() == "Collision") {
+	if (p_e->getType() == df::COLLISION_EVENT) {
 		const df::EventCollision* p_collision_event = dynamic_cast <df::EventCollision const*> (p_e);
 		hit(p_collision_event);
 		return 1;
 	}
-	if (p_e->getType() == "Step") {
+	if (p_e->getType() == df::STEP_EVENT) {
 		//printf("step event received!");
 		const df::EventStep* p_step_event = dynamic_cast <df::EventStep const*> (p_e);
 		step(p_step_event);
@@ -54,14 +56,9 @@ void Enemy::hit(const df::EventCollision* p_collision_event) {
 
 	if ((p_collision_event->getObject1()->getType()) == "Bullet") {
 		WM.markForDelete(p_collision_event->getObject2());
-		printf("enemy hit! \n");
-		//lose a life
 	}
 	else if ((p_collision_event->getObject2()->getType()) == "Bullet") {
 		WM.markForDelete(p_collision_event->getObject1());
-		//lose a life
-		printf("enemy hit! \n");
-
 	}
 }
 

@@ -6,6 +6,7 @@ Points::Points() {
     setLocation(df::TOP_LEFT);
     setViewString("Points");
     setColor(df::YELLOW);
+    setValue(0);
 }
 
 int Points::eventHandler(const df::Event* p_e) {

@@ -11,12 +11,10 @@
 #include "ResourceManager.h"
 #include "Bullet.h"
 
-
-
 	Hero::Hero() {
 
 		setType("Hero");
-		if (setSprite("ship") != 0) {
+		if (setSprite("hero") != 0) {
 			std::cout << "Hero Sprite load failed! \n";
 		}
 		
@@ -30,6 +28,12 @@
 
 		setSolidness(df::HARD);
 
+		registerInterest(df::KEYBOARD_EVENT);
+
+		registerInterest(df::MSE_EVENT);
+
+		registerInterest(df::STEP_EVENT);
+
 		//setVelocity(Vector(0, 0));
 		//setDirection(Vector(0, 1));
 
@@ -37,13 +41,11 @@
 		//p_reticle = new Reticle();
 		//p_reticle->draw();
 
-		move_slowdown = 2;
+		move_slowdown = 3;
 		move_countdown = move_slowdown;
 
 		fire_slowdown = 20;
 		fire_countdown = fire_slowdown;
-
-
 	}
 
 	Hero::~Hero() {
@@ -56,11 +58,11 @@
 		if (p_e->getType() == df::KEYBOARD_EVENT) {
 			const df::EventKeyboard* p_keyboard_event =
 				dynamic_cast <const df::EventKeyboard*> (p_e);
-			//printf("keyboard event found!");
+			//printf("keyboard event found!\n");
 			kbd(p_keyboard_event);
 			return 1;
 		}
-		if (p_e->getType() == "Collision") {
+		if (p_e->getType() == df::COLLISION_EVENT) {
 			printf("Hero collided! \n");
 			return 1;
 		}
@@ -76,7 +78,7 @@
 			}
 			return 1;
 		}
-		if (p_e->getType() == "Step") {
+		if (p_e->getType() == df::STEP_EVENT) {
 			//printf("step event received!");
 			step();
 			return 1;
@@ -88,20 +90,20 @@
 	}
 
 	void Hero::kbd(const df::EventKeyboard* p_keyboard_event) {
-		//printf("key: %d", p_keyboard_event->getKey());
+		//printf("key: %d\n", p_keyboard_event->getKey());
 		switch (p_keyboard_event->getKey()) {
 		case df::Keyboard::A:     // left
-			if (p_keyboard_event->getKeyboardAction() == 5) {
-				move(-2);
+			if (p_keyboard_event->getKeyboardAction() == df::KEY_DOWN) {
+				move(-1);
 			}
 			break;
 		case df::Keyboard::D:       // right
-			if (p_keyboard_event->getKeyboardAction() == 5) {
-				move(+2);
+			if (p_keyboard_event->getKeyboardAction() == df::KEY_DOWN) {
+				move(+1);
 			}
 			break;
 		case df::Keyboard::SPACE:
-			if (p_keyboard_event->getKeyboardAction() == 5) {
+			if (p_keyboard_event->getKeyboardAction() == df::KEY_PRESSED) {
 				//RM.getSound("weapon swap")->play();
 			}
 			break;
@@ -113,7 +115,7 @@
 		return;
 	}
 
-	// Move up or down.
+	// Move left or right
 	void Hero::move(float dx) {
 
 		// See if time to move.
@@ -122,9 +124,10 @@
 			// If stays on window, allow move.
 			df::Vector new_pos(getPosition().getX() + dx, getPosition().getY());
 
-			if ((new_pos.getX() > 1) &&
-				(new_pos.getX() < WM.getBoundary().getHorizontal())-1)
+			if ((new_pos.getX() > 2) &&
+				(new_pos.getX() < WM.getBoundary().getHorizontal() - 2)) {
 				WM.moveObject(this, new_pos);
+			}
 
 			move_countdown = move_slowdown;
 		}
@@ -159,6 +162,7 @@
 
 
 	void Hero::step() {
+		//printf("move_countdown: %d\n", move_countdown);
 		// Move countdown.
 		move_countdown--;
 		if (move_countdown < 0)
