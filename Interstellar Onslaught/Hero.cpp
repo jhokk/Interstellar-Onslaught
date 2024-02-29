@@ -106,7 +106,7 @@
 		if (p_e->getType() == WAVE_EVENT) {
 			//printf("wave event received!");
 			//newWave();
-			new_wave_wait = 45;
+			new_wave_wait = 5 + 40 * (wave_num % 4 == 0);
 			return 1;
 		}
 		else {
@@ -157,7 +157,7 @@
 			df::Vector new_pos(getPosition().getX() + dx, getPosition().getY());
 
 			if ((new_pos.getX() > 2) &&
-				(new_pos.getX() < WM.getBoundary().getHorizontal() - 2)) {
+				(new_pos.getX() < DM.getHorizontal() - 3)) {
 				WM.moveObject(this, new_pos);
 			}
 			move_countdown = move_slowdown;

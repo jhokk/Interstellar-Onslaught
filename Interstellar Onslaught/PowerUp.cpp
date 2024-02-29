@@ -18,13 +18,7 @@ PowerUp::PowerUp(df::Vector start_pos) {
 	setSolidness(df::SOFT);
 
 	registerInterest(WAVE_EVENT);
-
-	//power = (PowerUpType) (rand() % 3);
 }
-/*
-PowerUpType PowerUp::getPower() const {
-	return power;
-}*/
 
 int PowerUp::eventHandler(const df::Event* p_e) {
 

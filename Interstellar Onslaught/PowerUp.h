@@ -14,12 +14,10 @@ enum PowerUpType {
 class PowerUp : public df::Object {
 
 private:
-	//PowerUpType power;
 	void hit(const df::EventCollision* p_collision_event);
 	void out();
 
 public:
 	PowerUp(df::Vector start_pos);
-	//PowerUpType getPower() const;
 	int eventHandler(const df::Event* p_e) override;
 };

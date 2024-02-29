@@ -18,7 +18,7 @@ Boss::Boss() {
 	setPosition(df::Vector(WM.getBoundary().getHorizontal() / 2, 6.0f));
 	setSolidness(df::HARD);
 	target_angle = 0;
-	health = 5;
+	health = 6;
 
 	p_music = RM.getMusic("boss music");
 	if (p_music)
@@ -91,6 +91,7 @@ void Boss::hit(const df::EventCollision* p_collision_event) {
 				f_sound->play();
 		}
 		else {
+			DM.shake(1, 1, 5);
 			df::Sound* f_sound = RM.getSound("explode");
 			if (f_sound)
 				f_sound->play();

@@ -49,7 +49,6 @@ Bullet::Bullet(df::Vector start_pos, df::Vector direction) {
 	setPierce(1);
 }
 
-
 void Bullet::out() {
 	//printf("bullet out of bounds, getting deleted");
 	WM.markForDelete(this);
