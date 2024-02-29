@@ -200,10 +200,10 @@
 			(fire_countdown <= 10 && power == PowerUpType::RAPID)) {
 
 			int pierce = 1 + (power == PowerUpType::PIERCE);
-			new Bullet(df::Vector(getPosition().getX() - 1.5f, getPosition().getY() - 2), pierce);
+			new Bullet(df::Vector(getPosition().getX() - 1.5f, getPosition().getY() - 2), pierce, "Bullet", "bullet");
 			if (power == PowerUpType::SPREAD) {
-				new Bullet(df::Vector(getPosition().getX() + 1, getPosition().getY() - 2), pierce);
-				new Bullet(df::Vector(getPosition().getX() - 4, getPosition().getY() - 2), pierce);
+				new Bullet(df::Vector(getPosition().getX() + 1, getPosition().getY() - 2), pierce, "Bullet", "bullet");
+				new Bullet(df::Vector(getPosition().getX() - 4, getPosition().getY() - 2), pierce, "Bullet", "bullet");
 			}
 
 			// Play "fire" sound.

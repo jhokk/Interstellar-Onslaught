@@ -10,7 +10,8 @@ class Bullet : public df::Object {
         void out();
 
     public:
-        Bullet(df::Vector start_pos, int piercing=1);
+        //Bullet(df::Vector start_pos, int piercing=1);
+        Bullet(df::Vector start_pos, int piercing = 1, std::string name = "Bullet", std::string sprite = "bullet");
         int eventHandler(const df::Event* p_e) override;
         void setPierce(int new_pierce);
         int getPierce() const;
