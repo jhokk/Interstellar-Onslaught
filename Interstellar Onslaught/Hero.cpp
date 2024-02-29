@@ -68,6 +68,8 @@
 		df::addParticles(df::SPARKS, getPosition(), 3, df::RED);
 		df::addParticles(df::SPARKS, getPosition(), 2, df::YELLOW);
 
+		p_power_vo->setActive(0);
+
 		new GameOver();
 
 	}
