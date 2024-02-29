@@ -361,8 +361,6 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
-/Interstellar Onslaught/Interstellar Onslaught.vcxproj
-/Interstellar Onslaught/Interstellar Onslaught.vcxproj.filters
 /Interstellar Onslaught/openal32.dll
 /Interstellar Onslaught/sfml-audio-2.dll
 /Interstellar Onslaught/sfml-audio-d-2.dll
