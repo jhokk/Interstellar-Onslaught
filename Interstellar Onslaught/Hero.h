@@ -23,6 +23,7 @@ public:
     ~Hero();
     int eventHandler(const df::Event* p_e) override;
     //int draw();
-    void fire(df::Vector target);
+    //void fire(df::Vector target);
+    void fire();
     void step();
 };

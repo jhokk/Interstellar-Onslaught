@@ -11,7 +11,8 @@ Bullet::Bullet(df::Vector start_pos) {
 	df::Vector p(start_pos.getX() + 1.5f, start_pos.getY() - 0.5f);
 	setPosition(p);
 
-	setSpeed(1);
+	//setSpeed(1);
+	setVelocity(df::Vector(0, -0.5f));
 
 	setSolidness(df::SOFT);
 }

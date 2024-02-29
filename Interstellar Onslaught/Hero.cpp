@@ -79,7 +79,8 @@
 			const df::EventMouse* p_mouse_event = dynamic_cast <const df::EventMouse*> (p_e);
 			if ((p_mouse_event->getMouseAction() == df::CLICKED) &&
 				(p_mouse_event->getMouseButton() == df::Mouse::LEFT)) {
-				fire(this->getPosition());
+				//fire(this->getPosition());
+				fire();
 			}
 			return 1;
 		}
@@ -138,7 +139,7 @@
 		}
 
 	}
-
+	/*
 	void Hero::fire(df::Vector target) {
 
 		//printf("Fire at X: %f \n", target.getX());
@@ -155,6 +156,26 @@
 			
 			Bullet* p = new Bullet(df::Vector(getPosition().getX() - 2, getPosition().getY() - 2));
 			p->setVelocity(v);
+
+			// Play "fire" sound.
+			df::Sound* f_sound = RM.getSound("fire");
+			if (f_sound)
+				f_sound->play();
+
+			fire_countdown = fire_slowdown;
+		}
+	}*/
+
+	void Hero::fire() {
+
+		if (fire_countdown == 0) {
+
+			
+			new Bullet(df::Vector(getPosition().getX() - 1.5f, getPosition().getY() - 2));
+			if (power == PowerUpType::SPREAD) {
+				new Bullet(df::Vector(getPosition().getX() + 1, getPosition().getY() - 2));
+				new Bullet(df::Vector(getPosition().getX() - 4, getPosition().getY() - 2));
+			}
 
 			// Play "fire" sound.
 			df::Sound* f_sound = RM.getSound("fire");
