@@ -4,6 +4,7 @@
 #include "EventView.h"
 #include "PowerUp.h"
 #include "DisplayManager.h"
+#include "Bullet.h"
 
 #include <stdlib.h>
 
@@ -109,4 +110,16 @@ void Enemy::step(const df::EventStep* p_step_event) {
 	if (p_step_event->getStepCount() % 360 == 180) {
 		setVelocity(df::Vector(-1 * getVelocity().getX(), getVelocity().getY()));
 	}
+
+	// Shoot?
+	if (rand() % 900 == 0) {
+		shoot();
+	}
+}
+
+void Enemy::shoot() {
+
+	new Bullet(df::Vector(getPosition().getX() + 1.5f, getPosition().getY() + 1), 0, "EnemyBullet", "enemybullet");
+
+
 }
