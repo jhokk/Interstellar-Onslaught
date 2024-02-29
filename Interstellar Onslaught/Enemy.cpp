@@ -3,12 +3,20 @@
 #include "WorldManager.h"
 #include "EventView.h"
 #include "PowerUp.h"
+#include "DisplayManager.h"
 
 #include <stdlib.h>
 
-Enemy::Enemy() {
+Enemy::Enemy(int level) {
+	if (level == 1) {
+		setSprite("enemy1");
+		points = 20;
+	}
+	else {
+		setSprite("enemy");
+		points = 10;
+	}
 	setType("Enemy");
-	setSprite("enemy");
 
 	setVelocity(df::Vector(0.05f, 0.005f));
 
@@ -22,16 +30,20 @@ Enemy::~Enemy() {
 
 	// Send "view" event with points to ViewObjects.
 	// Add 10 points.
-	df::EventView ev("Points", 10, true);
+	df::EventView ev("Points", points, true);
 	WM.onEvent(&ev);
 
 	new PowerUp(getPosition());
 }
 
 void Enemy::out() {
-	if (getPosition().getY() <= 0) {
+	if (getPosition().getY() > WM.getBoundary().getVertical()) {
+		// Lose a life
+		df::EventView ev("Lives", -1, true);
+		WM.onEvent(&ev);
+
+		//DM.shake(1, 1, 1);
 		WM.markForDelete(this);
-		//lose a life
 	}
 }
 
@@ -57,11 +69,13 @@ int Enemy::eventHandler(const df::Event* p_e) {
 
 void Enemy::hit(const df::EventCollision* p_collision_event) {
 
-	if ((p_collision_event->getObject1()->getType()) == "Bullet") {
-		WM.markForDelete(p_collision_event->getObject2());
-	}
-	else if ((p_collision_event->getObject2()->getType()) == "Bullet") {
-		WM.markForDelete(p_collision_event->getObject1());
+	if (p_collision_event->getObject1()->getType() == "Hero" || 
+		p_collision_event->getObject2()->getType() == "Hero") {
+		WM.markForDelete(this);
+
+		// Lose a life
+		df::EventView ev("Lives", -1, true);
+		WM.onEvent(&ev);
 	}
 }
 
@@ -74,7 +88,7 @@ void Enemy::moveToStart() {
 	int world_vert = (int)WM.getBoundary().getVertical();
 
 	temp_pos.setX(6.0f);
-	temp_pos.setY(7.0f);
+	temp_pos.setY(8.0f);
 
 	// If collision, move right slightly until empty space.
 	df::ObjectList collision_list = WM.getCollisions(this, temp_pos);

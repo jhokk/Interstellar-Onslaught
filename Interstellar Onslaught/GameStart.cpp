@@ -62,15 +62,17 @@ void GameStart::start() {
 
     new Hero;
 
-    for (int i = 0; i < 27; i++)
+    for (int i = 0; i < 18; i++)
         new Enemy;
+    for (int i = 0; i < 18; i++)
+        new Enemy(1);
 
 
     new Points;
     df::ViewObject* p_vo = new df::ViewObject;
     p_vo->setLocation(df::TOP_RIGHT);
-    p_vo->setViewString("Score");
-    p_vo->setValue(0);
+    p_vo->setViewString("Lives");
+    p_vo->setValue(3);
     p_vo->setColor(df::YELLOW);
 
     // Pause start music.

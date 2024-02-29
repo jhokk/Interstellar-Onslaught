@@ -6,7 +6,7 @@
 // Game includes
 #include "GameStart.h"
 
-//void loadResources(void);
+void loadResources(void);
 
 int main(int argc, char* argv[]) {
 
@@ -18,16 +18,8 @@ int main(int argc, char* argv[]) {
 
     df::splash();
 
-    //loadResources();
-    RM.loadSprite("sprites/bullet-spr.txt", "bullet");
-    RM.loadSprite("sprites/enemy-spr.txt", "enemy");
-    RM.loadSprite("sprites/hero-spr.txt", "hero");
-    RM.loadSprite("sprites/powerup-spr.txt", "powerup");
-    RM.loadSprite("sprites/newShip-spr.txt", "newShip");
-    RM.loadSprite("sprites/gamestart-spr.txt", "gamestart");
-
-    RM.loadMusic("sounds/start-music.wav", "start music");
-
+    loadResources();
+    
     new GameStart();
 
     GM.run();
@@ -36,14 +28,16 @@ int main(int argc, char* argv[]) {
 
     return 0;
 }
-/*
+
 void loadResources(void) {
     RM.loadSprite("sprites/bullet-spr.txt", "bullet");
     RM.loadSprite("sprites/enemy-spr.txt", "enemy");
+    RM.loadSprite("sprites/enemy1-spr.txt", "enemy1");
     RM.loadSprite("sprites/hero-spr.txt", "hero");
     RM.loadSprite("sprites/powerup-spr.txt", "powerup");
     RM.loadSprite("sprites/newShip-spr.txt", "newShip");
     RM.loadSprite("sprites/gamestart-spr.txt", "gamestart");
 
+    RM.loadSound("sounds/fire.wav", "fire");
     RM.loadMusic("sounds/start-music.wav", "start music");
-}*/
+}

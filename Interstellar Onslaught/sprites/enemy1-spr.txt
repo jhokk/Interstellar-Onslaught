@@ -1,0 +1,18 @@
+<HEADER>
+frames 2
+width 5
+height 2
+color green
+slowdown 4
+</HEADER>
+<BODY>
+/_X_\
+ / \ 
+end
+/_X_\
+ \ / 
+end
+</BODY>
+<FOOTER>
+version alpha
+</FOOTER>

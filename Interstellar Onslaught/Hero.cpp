@@ -168,9 +168,9 @@
 
 	void Hero::fire() {
 
-		if (fire_countdown == 0) {
+		if (fire_countdown == 0 || 
+			(fire_countdown <= 10 && power == PowerUpType::RAPID)) {
 
-			
 			new Bullet(df::Vector(getPosition().getX() - 1.5f, getPosition().getY() - 2));
 			if (power == PowerUpType::SPREAD) {
 				new Bullet(df::Vector(getPosition().getX() + 1, getPosition().getY() - 2));
