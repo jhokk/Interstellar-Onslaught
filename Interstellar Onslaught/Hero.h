@@ -19,6 +19,8 @@ private:
     PowerUpType power;
     int power_timer;
     df::ViewObject* p_power_vo;
+    void newWave();
+    int toCreateWave;
 
 public:
     Hero();

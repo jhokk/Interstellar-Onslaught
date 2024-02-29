@@ -5,6 +5,8 @@
 #include "PowerUp.h"
 #include "DisplayManager.h"
 #include "Bullet.h"
+#include "ObjectListIterator.h"
+#include "EventWave.h"
 
 #include <stdlib.h>
 
@@ -34,6 +36,12 @@ Enemy::~Enemy() {
 	// 10% chance to create powerup
 	if ((rand() % 10) == 0)
 		new PowerUp(getPosition());
+
+	df::ObjectList enemy_list = WM.objectsOfType("Enemy");
+	if (enemy_list.getCount() == 1) {
+		EventWave wave;
+		WM.onEvent(&wave);
+	}
 }
 
 void Enemy::out() {

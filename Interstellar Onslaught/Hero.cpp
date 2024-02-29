@@ -11,6 +11,8 @@
 #include "ResourceManager.h"
 #include "Bullet.h"
 #include "GameOver.h"
+#include "Enemy.h"
+#include "EventWave.h"
 
 
 	Hero::Hero() {
@@ -21,20 +23,20 @@
 		}
 		
 		// set starting location
-		df::Vector p((float)DM.getHorizontal()/2, (float)DM.getVertical()-2);
+		//df::Vector p((float)DM.getHorizontal()/2, (float)DM.getVertical()-2);
+		
 		//Vector p((float)DM.getHorizontal()/2, (float)DM.getVertical()/2);
 
-		setPosition(p);
+		//setPosition(p);
 
 		setAltitude(2);
 
 		setSolidness(df::HARD);
 
 		registerInterest(df::KEYBOARD_EVENT);
-
 		registerInterest(df::MSE_EVENT);
-
 		registerInterest(df::STEP_EVENT);
+		registerInterest(WAVE_EVENT);
 
 		//setVelocity(Vector(0, 0));
 		//setDirection(Vector(0, 1));
@@ -44,18 +46,21 @@
 		//p_reticle->draw();
 
 		move_slowdown = 3;
-		move_countdown = move_slowdown;
+		//move_countdown = move_slowdown;
 
 		fire_slowdown = 20;
-		fire_countdown = fire_slowdown;
+		//fire_countdown = fire_slowdown;
 
-		power = PowerUpType::NONE;
-		power_timer = 0;
+		//power = PowerUpType::NONE;
+		//power_timer = 0;
 
 		p_power_vo = new df::ViewObject;
 		p_power_vo->setLocation(df::CENTER_RIGHT);
 		p_power_vo->setDrawValue(0);
 		p_power_vo->setBorder(0);
+		//p_power_vo->setActive(0);
+
+		newWave();
 	}
 
 	Hero::~Hero() {
@@ -98,6 +103,12 @@
 		if (p_e->getType() == df::STEP_EVENT) {
 			//printf("step event received!");
 			step();
+			return 1;
+		}
+		if (p_e->getType() == WAVE_EVENT) {
+			//printf("wave event received!");
+			//newWave();
+			toCreateWave = 1;
 			return 1;
 		}
 		else {
@@ -230,6 +241,9 @@
 			else
 				p_power_vo->setColor(df::CYAN);
 		}
+
+		if (toCreateWave)
+			newWave();
 	}
 	
 	void Hero::hit(const df::EventCollision* p_collision_event) {
@@ -251,4 +265,20 @@
 				p_power_vo->setViewString("Piercing Shots!!");
 			}
 		}
+	}
+
+	void Hero::newWave() {
+		setPosition(df::Vector((float)DM.getHorizontal() / 2, (float)DM.getVertical() - 2));
+
+		move_countdown = move_slowdown;
+		fire_countdown = fire_slowdown;
+		power = PowerUpType::NONE;
+		power_timer = 0;
+		p_power_vo->setActive(0);
+		toCreateWave = 0;
+
+		for (int i = 0; i < 18; i++)
+			new Enemy;
+		for (int i = 0; i < 18; i++)
+			new Enemy(1);
 	}
