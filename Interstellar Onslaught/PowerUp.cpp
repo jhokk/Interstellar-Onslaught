@@ -2,6 +2,7 @@
 #include "EventCollision.h"
 #include "EventOut.h"
 #include "WorldManager.h"
+#include "EventWave.h"
 
 #include <stdlib.h>
 
@@ -15,6 +16,8 @@ PowerUp::PowerUp(df::Vector start_pos) {
 	setVelocity(df::Vector(0, 0.1f));
 
 	setSolidness(df::SOFT);
+
+	registerInterest(WAVE_EVENT);
 
 	//power = (PowerUpType) (rand() % 3);
 }
@@ -32,6 +35,10 @@ int PowerUp::eventHandler(const df::Event* p_e) {
 	}
 	if (p_e->getType() == df::OUT_EVENT) {
 		out();
+		return 1;
+	}
+	if (p_e->getType() == WAVE_EVENT) {
+		WM.markForDelete(this);
 		return 1;
 	}
 	else {

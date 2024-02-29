@@ -2,6 +2,7 @@
 #include "ResourceManager.h"
 #include "WorldManager.h"
 #include "EventOut.h"
+#include "EventWave.h"
 
 // Create a bullet object
 // piercing = the number of targets the bullet can hit before it destroys itself (default 1)
@@ -17,6 +18,8 @@ Bullet::Bullet(df::Vector start_pos, int piercing) {
 	setVelocity(df::Vector(0, -0.5f));
 
 	setSolidness(df::SOFT);
+
+	registerInterest(WAVE_EVENT);
 
 	setPierce(piercing);
 }
@@ -35,6 +38,10 @@ int Bullet::eventHandler(const df::Event* p_e) {
 	if (p_e->getType() == df::COLLISION_EVENT) {
 		const df::EventCollision* p_collision_event = dynamic_cast <const df::EventCollision*> (p_e);
 		hit(p_collision_event);
+		return 1;
+	}
+	if (p_e->getType() == WAVE_EVENT) {
+		WM.markForDelete(this);
 		return 1;
 	}
 	return 0;

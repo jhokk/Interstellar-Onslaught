@@ -11,6 +11,7 @@
 #include "Music.h"
 #include "Points.h"
 #include "Enemy.h"
+#include "EventWave.h"
 
 GameStart::GameStart() {
     setType("GameStart");
@@ -23,8 +24,9 @@ GameStart::GameStart() {
 
     // Register for "keyboard" event.
     registerInterest(df::KEYBOARD_EVENT);
+    registerInterest(WAVE_EVENT);
 
-    // Play start music. TODO
+    // Play start music.
     p_music = RM.getMusic("start music");
     playMusic();
 }
@@ -61,7 +63,7 @@ int GameStart::eventHandler(const df::Event* p_e) {
 void GameStart::start() {
 
     new Hero;
-    newWave();
+    //newWave();
 
     new Points;
 
@@ -75,12 +77,4 @@ void GameStart::start() {
 // Override default draw so as not to display "value".
 int GameStart::draw() {
     return df::Object::draw();
-}
-
-void GameStart::newWave() {
-
-    for (int i = 0; i < 18; i++)
-        new Enemy;
-    for (int i = 0; i < 18; i++)
-        new Enemy(1);
 }
