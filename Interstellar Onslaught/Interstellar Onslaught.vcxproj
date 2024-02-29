@@ -145,6 +145,7 @@
   <ItemGroup>
     <ClCompile Include="EventWave.cpp" />
     <ClCompile Include="GameOver.cpp" />
+    <ClCompile Include="Lives.cpp" />
     <ClCompile Include="PowerUp.cpp" />
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="Enemy.h" />
@@ -152,6 +153,7 @@
     <ClInclude Include="GameOver.h" />
     <ClInclude Include="GameStart.h" />
     <ClInclude Include="EventWave.h" />
+    <ClInclude Include="Lives.h" />
     <ClInclude Include="PowerUp.h" />
     <ClInclude Include="Hero.h" />
     <ClInclude Include="Points.h" />
