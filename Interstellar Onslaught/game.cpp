@@ -25,8 +25,11 @@ int main(int argc, char* argv[]) {
     RM.loadSprite("sprites/powerup-spr.txt", "powerup");
     RM.loadSprite("sprites/newShip-spr.txt", "newShip");
     RM.loadSprite("sprites/gamestart-spr.txt", "gamestart");
+    RM.loadSprite("sprites/gameover-spr.txt", "gameover");
+
 
     RM.loadMusic("sounds/start-music.wav", "start music");
+    RM.loadSound("sounds/game-over-new.wav", "game over");
 
     new GameStart();
 

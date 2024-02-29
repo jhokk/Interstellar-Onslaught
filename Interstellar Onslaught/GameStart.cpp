@@ -67,11 +67,14 @@ void GameStart::start() {
 
 
     new Points;
+    
+    /*
     df::ViewObject* p_vo = new df::ViewObject;
     p_vo->setLocation(df::TOP_RIGHT);
     p_vo->setViewString("Score");
     p_vo->setValue(0);
     p_vo->setColor(df::YELLOW);
+    */
 
     // Pause start music.
     p_music->pause();
