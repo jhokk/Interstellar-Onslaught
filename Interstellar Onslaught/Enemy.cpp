@@ -27,13 +27,12 @@ Enemy::Enemy(int level) {
 }
 
 Enemy::~Enemy() {
-
-	// Send "view" event with points to ViewObjects.
-	// Add 10 points.
 	df::EventView ev("Points", points, true);
 	WM.onEvent(&ev);
 
-	new PowerUp(getPosition());
+	// 10% chance to create powerup
+	if ((rand() % 10) == 0)
+		new PowerUp(getPosition());
 }
 
 void Enemy::out() {
@@ -63,7 +62,7 @@ int Enemy::eventHandler(const df::Event* p_e) {
 		step(p_step_event);
 		return 1;
 	}
-
+	
 	return 0;
 }
 

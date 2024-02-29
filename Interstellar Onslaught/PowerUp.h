@@ -1,7 +1,7 @@
 #include "Object.h"
 #include "EventCollision.h"
 
-#define POWER_DURATION 300 // number of steps before losing a powerup
+#define POWER_DURATION 150 // number of steps before losing a powerup
 
 enum PowerUpType {
 	UNDEFINED_TYPE = -1, ///< Undefined
