@@ -4,6 +4,7 @@
 #include "EventCollision.h"
 #include "Object.h"
 #include "PowerUp.h"
+#include "ViewObject.h"
 
 class Hero : public df::Object {
 
@@ -17,12 +18,14 @@ private:
     int fire_countdown;
     PowerUpType power;
     int power_timer;
+    df::ViewObject* p_power_vo;
 
 public:
     Hero();
     ~Hero();
     int eventHandler(const df::Event* p_e) override;
     //int draw();
-    void fire(df::Vector target);
+    //void fire(df::Vector target);
+    void fire();
     void step();
 };

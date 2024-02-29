@@ -1,12 +1,12 @@
 #include "Object.h"
 #include "EventCollision.h"
 
-#define POWER_DURATION 300 // number of steps before losing a powerup
+#define POWER_DURATION 150 // number of steps before losing a powerup
 
 enum PowerUpType {
 	UNDEFINED_TYPE = -1, ///< Undefined
 	SPREAD,			  ///< Fires two extra bullets
-	SHIELD,			  ///< Temporary extra life
+	RAPID,			  ///< Reduces fire slowdown
 	PIERCE,			  ///< Fires piercing bullets
 	NONE,			  ///< No powerup
 };

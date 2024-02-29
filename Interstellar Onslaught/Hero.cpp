@@ -51,6 +51,11 @@
 
 		power = PowerUpType::NONE;
 		power_timer = 0;
+
+		p_power_vo = new df::ViewObject;
+		p_power_vo->setLocation(df::CENTER_RIGHT);
+		p_power_vo->setDrawValue(0);
+		p_power_vo->setBorder(0);
 	}
 
 	Hero::~Hero() {
@@ -85,7 +90,8 @@
 			const df::EventMouse* p_mouse_event = dynamic_cast <const df::EventMouse*> (p_e);
 			if ((p_mouse_event->getMouseAction() == df::CLICKED) &&
 				(p_mouse_event->getMouseButton() == df::Mouse::LEFT)) {
-				fire(this->getPosition());
+				//fire(this->getPosition());
+				fire();
 			}
 			return 1;
 		}
@@ -150,7 +156,7 @@
 		}
 
 	}
-
+	/*
 	void Hero::fire(df::Vector target) {
 
 		//printf("Fire at X: %f \n", target.getX());
@@ -167,6 +173,27 @@
 			
 			Bullet* p = new Bullet(df::Vector(getPosition().getX() - 2, getPosition().getY() - 2));
 			p->setVelocity(v);
+
+			// Play "fire" sound.
+			df::Sound* f_sound = RM.getSound("fire");
+			if (f_sound)
+				f_sound->play();
+
+			fire_countdown = fire_slowdown;
+		}
+	}*/
+
+	void Hero::fire() {
+
+		if (fire_countdown == 0 || 
+			(fire_countdown <= 10 && power == PowerUpType::RAPID)) {
+
+			int pierce = 1 + (power == PowerUpType::PIERCE);
+			new Bullet(df::Vector(getPosition().getX() - 1.5f, getPosition().getY() - 2), pierce);
+			if (power == PowerUpType::SPREAD) {
+				new Bullet(df::Vector(getPosition().getX() + 1, getPosition().getY() - 2), pierce);
+				new Bullet(df::Vector(getPosition().getX() - 4, getPosition().getY() - 2), pierce);
+			}
 
 			// Play "fire" sound.
 			df::Sound* f_sound = RM.getSound("fire");
@@ -193,6 +220,15 @@
 		if (power_timer < 0) {
 			power_timer = 0;
 			power = PowerUpType::NONE;
+			p_power_vo->setActive(0);
+		}
+		
+		// Powerup ViewObject flashes cyan/magenta
+		if (power_timer % 10 == 0) {
+			if (p_power_vo->getColor() == df::CYAN)
+				p_power_vo->setColor(df::MAGENTA);
+			else
+				p_power_vo->setColor(df::CYAN);
 		}
 	}
 	
@@ -201,5 +237,18 @@
 			(p_collision_event->getObject2()->getType() == "PowerUp")) {
 			power = (PowerUpType)(rand() % 3);
 			power_timer = POWER_DURATION;
+ 
+			p_power_vo->setActive(1);
+			p_power_vo->setColor(df::YELLOW);
+			DM.shake(1, 1, POWER_DURATION);
+			if (power == PowerUpType::SPREAD) {
+				p_power_vo->setViewString("Wide Shots!!");
+			}
+			else if (power == PowerUpType::RAPID) {
+				p_power_vo->setViewString("Rapid Shots!!");
+			}
+			else if (power == PowerUpType::PIERCE) {
+				p_power_vo->setViewString("Piercing Shots!!");
+			}
 		}
 	}

@@ -3,7 +3,9 @@
 #include "WorldManager.h"
 #include "EventOut.h"
 
-Bullet::Bullet(df::Vector start_pos) {
+// Create a bullet object
+// piercing = the number of targets the bullet can hit before it destroys itself (default 1)
+Bullet::Bullet(df::Vector start_pos, int piercing) {
 
 	setType("Bullet");
 	setSprite("bullet");
@@ -11,9 +13,12 @@ Bullet::Bullet(df::Vector start_pos) {
 	df::Vector p(start_pos.getX() + 1.5f, start_pos.getY() - 0.5f);
 	setPosition(p);
 
-	setSpeed(1);
+	//setSpeed(1);
+	setVelocity(df::Vector(0, -0.5f));
 
 	setSolidness(df::SOFT);
+
+	setPierce(piercing);
 }
 
 void Bullet::out() {
@@ -36,9 +41,24 @@ int Bullet::eventHandler(const df::Event* p_e) {
 }
 
 void Bullet::hit(const df::EventCollision* p_collision_event) {
-	if ((p_collision_event->getObject1()->getType() == "Enemy") ||
-		(p_collision_event->getObject2()->getType() == "Enemy")) {
+	if (p_collision_event->getObject1()->getType() == "Enemy") {
 		WM.markForDelete(p_collision_event->getObject1());
-		WM.markForDelete(p_collision_event->getObject2());
+		setPierce(getPierce() - 1);
+		if (getPierce() == 0)
+			WM.markForDelete(this);
 	}
+	else if (p_collision_event->getObject2()->getType() == "Enemy") {
+		WM.markForDelete(p_collision_event->getObject2());
+		setPierce(getPierce() - 1);
+		if (getPierce() == 0)
+			WM.markForDelete(this);
+	}
+}
+
+void Bullet::setPierce(int new_pierce) {
+	pierce = new_pierce;
+}
+
+int Bullet::getPierce() const {
+	return pierce;
 }
