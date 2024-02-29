@@ -46,6 +46,9 @@
 
 		fire_slowdown = 20;
 		fire_countdown = fire_slowdown;
+
+		power = PowerUpType::NONE;
+		power_timer = 0;
 	}
 
 	Hero::~Hero() {
@@ -63,11 +66,13 @@
 			return 1;
 		}
 		if (p_e->getType() == df::COLLISION_EVENT) {
-			printf("Hero collided! \n");
+			const df::EventCollision* p_collision_event = dynamic_cast <df::EventCollision const*> (p_e);
+			hit(p_collision_event);
+			//printf("Hero collided! \n");
 			return 1;
 		}
 		if (p_e->getType() == df::OUT_EVENT) {
-			printf("Hero is out of bounds! \n");
+			//printf("Hero is out of bounds! \n");
 			return 1;
 		}
 		if (p_e->getType() == df::MSE_EVENT) {
@@ -147,8 +152,8 @@
 			//printf("target vector: %f, %f \n", v.getX(), v.getY());
 
 			v.scale(0.5);
+			
 			Bullet* p = new Bullet(df::Vector(getPosition().getX() - 2, getPosition().getY() - 2));
-
 			p->setVelocity(v);
 
 			// Play "fire" sound.
@@ -159,7 +164,6 @@
 			fire_countdown = fire_slowdown;
 		}
 	}
-
 
 	void Hero::step() {
 		//printf("move_countdown: %d\n", move_countdown);
@@ -172,6 +176,18 @@
 		fire_countdown--;
 		if (fire_countdown < 0)
 			fire_countdown = 0;
+
+		power_timer--;
+		if (power_timer < 0) {
+			power_timer = 0;
+			power = PowerUpType::NONE;
+		}
 	}
 	
-	
+	void Hero::hit(const df::EventCollision* p_collision_event) {
+		if ((p_collision_event->getObject1()->getType() == "PowerUp") ||
+			(p_collision_event->getObject2()->getType() == "PowerUp")) {
+			power = (PowerUpType)(rand() % 3);
+			power_timer = POWER_DURATION;
+		}
+	}

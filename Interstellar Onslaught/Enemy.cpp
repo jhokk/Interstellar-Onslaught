@@ -2,6 +2,7 @@
 #include "EventOut.h"
 #include "WorldManager.h"
 #include "EventView.h"
+#include "PowerUp.h"
 
 #include <stdlib.h>
 
@@ -23,6 +24,8 @@ Enemy::~Enemy() {
 	// Add 10 points.
 	df::EventView ev("Points", 10, true);
 	WM.onEvent(&ev);
+
+	new PowerUp(getPosition());
 }
 
 void Enemy::out() {

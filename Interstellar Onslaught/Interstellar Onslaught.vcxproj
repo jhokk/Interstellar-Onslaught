@@ -143,10 +143,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="PowerUp.cpp" />
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="Enemy.h" />
     <ClCompile Include="GameStart.cpp" />
     <ClInclude Include="GameStart.h" />
+    <ClInclude Include="PowerUp.h" />
     <ClInclude Include="Hero.h" />
     <ClInclude Include="Points.h" />
   </ItemGroup>
